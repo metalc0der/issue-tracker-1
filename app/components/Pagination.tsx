@@ -4,6 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRigh
 import { Button, Flex, Text } from '@radix-ui/themes';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
+import PageSize from './PageSize';
 
 interface Props {
   itemCount: number;
@@ -20,7 +21,12 @@ const Pagination = ({
   const searchParams = useSearchParams();
 
   const pageCount = Math.ceil(itemCount / pageSize);
-  if (pageCount <= 1) return null;
+  if (pageCount <= 1) return (
+    <Flex justify="between">
+      <Flex align="center" gap="2"></Flex>
+      <PageSize />
+    </Flex>
+  );
 
   const changePage = (page: number) => {
     const params = new URLSearchParams(searchParams);
@@ -29,42 +35,45 @@ const Pagination = ({
   }
 
   return (
-    <Flex align="center" gap="2">
-      <Text size="2">
-        Page {currentPage} of {pageCount}
-      </Text>
-      <Button
-        color="gray"
-        variant="soft"
-        disabled={currentPage === 1}
-        onClick={() => changePage(1)}
-      >
-        <DoubleArrowLeftIcon />
-      </Button>
-      <Button
-        color="gray"
-        variant="soft"
-        disabled={currentPage === 1}
-        onClick={() => changePage(currentPage - 1)}
-      >
-        <ChevronLeftIcon />
-      </Button>
-      <Button
-        color="gray"
-        variant="soft"
-        disabled={currentPage === pageCount}
-        onClick={() => changePage(currentPage + 1)}
-      >
-        <ChevronRightIcon />
-      </Button>
-      <Button
-        color="gray"
-        variant="soft"
-        disabled={currentPage === pageCount}
-        onClick={() => changePage(pageCount)}
-      >
-        <DoubleArrowRightIcon />
-      </Button>
+    <Flex justify="between">
+      <Flex align="center" gap="2">
+        <Text size="2">
+          Page {currentPage} of {pageCount}
+        </Text>
+        <Button
+          color="gray"
+          variant="soft"
+          disabled={currentPage === 1}
+          onClick={() => changePage(1)}
+        >
+          <DoubleArrowLeftIcon />
+        </Button>
+        <Button
+          color="gray"
+          variant="soft"
+          disabled={currentPage === 1}
+          onClick={() => changePage(currentPage - 1)}
+        >
+          <ChevronLeftIcon />
+        </Button>
+        <Button
+          color="gray"
+          variant="soft"
+          disabled={currentPage === pageCount}
+          onClick={() => changePage(currentPage + 1)}
+        >
+          <ChevronRightIcon />
+        </Button>
+        <Button
+          color="gray"
+          variant="soft"
+          disabled={currentPage === pageCount}
+          onClick={() => changePage(pageCount)}
+        >
+          <DoubleArrowRightIcon />
+        </Button>
+      </Flex>
+      <PageSize />
     </Flex>
   );
 };
